@@ -1,0 +1,1394 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Portafolio - Rafael Pradillo López-Ortum</title>
+
+  <!-- 
+    =========================================================================
+    PORTAFOLIO + BREAKOUT (5 NIVELES) + RÉCORD DE SESIÓN
+    CON ANIMACIONES VOV.CSS DIFERENTES EN CADA SECCIÓN
+    + INFORMACIÓN DE LINKEDIN Y CV AMPLIADA
+    + NEÓN / GLOW INCREMENTADO
+    =========================================================================
+  -->
+
+  <!-- 1. Animaciones CSS de vov.css (versión resumida) -->
+  <style>
+    @keyframes fade-in {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+    @keyframes fade-in-up {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fade-in-left {
+      0% { opacity: 0; transform: translateX(-20px); }
+      100% { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes fade-in-right {
+      0% { opacity: 0; transform: translateX(20px); }
+      100% { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes flip-in-x {
+      0% { transform: perspective(400px) rotateX(90deg); opacity: 0; }
+      100% { transform: perspective(400px) rotateX(0); opacity: 1; }
+    }
+    @keyframes zoom-in {
+      0% { transform: scale(0.7); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .vov {
+      animation-duration: 1s;
+      animation-fill-mode: both;
+    }
+    .fade-in {
+      animation-name: fade-in;
+    }
+    .fade-in-up {
+      animation-name: fade-in-up;
+    }
+    .fade-in-left {
+      animation-name: fade-in-left;
+    }
+    .fade-in-right {
+      animation-name: fade-in-right;
+    }
+    .flip-in-x {
+      animation-name: flip-in-x;
+    }
+    .zoom-in {
+      animation-name: zoom-in;
+    }
+  </style>
+
+  <!-- 2. Estilos propios con mayor NEÓN/GLOW -->
+  <style>
+    /**************************************************************************
+      1. RESET BÁSICO
+    **************************************************************************/
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html, body {
+      width: 100%;
+      height: 100%;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+    }
+
+    /*
+      2. BODY (fondo parallax + gradiente)
+    */
+    body {
+      background: 
+        linear-gradient(
+          to bottom right,
+          rgba(10,10,10,0.6),
+          rgba(70,70,70,0.5),
+          rgba(10,10,10,0.8)
+        ),
+        url('https://images.unsplash.com/photo-1583318776067-ded164680e78?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+      background-size: cover;
+      background-attachment: fixed;
+      background-position: center;
+      background-repeat: no-repeat;
+      color: #e0e0e0;
+      overflow-y: scroll;
+    }
+
+    /*
+      3. HEADER
+        - Un poco más de glow en el header
+    */
+    header {
+      background-color: rgba(31, 31, 31, 0.9);
+      color: #fff;
+      text-align: center;
+      padding: 1.2em 0 0.8em 0;
+      box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+      position: relative;
+      z-index: 1000;
+      animation: fade-in 1s forwards ease;
+      /* Glow suave alrededor del header */
+      box-shadow: 0 0 15px rgba(255,255,255,0.1);
+    }
+    header h1 {
+      font-size: 1.5rem;
+      margin-bottom: 0.2em;
+      color: #cccccc;
+      letter-spacing: 1px;
+    }
+    header p {
+      color: #ddd;
+      font-size: 1rem;
+    }
+
+    /* Botón menú con glow */
+    header .menu-button {
+      position: absolute;
+      top: 50%;
+      left: 10px;
+      transform: translateY(-50%);
+      background-color: #3a3a3a;
+      color: #fff;
+      padding: 10px;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: background-color 0.3s, box-shadow 0.3s;
+      font-size: 1.1rem;
+      z-index: 1001;
+      outline: none;
+    }
+    header .menu-button:hover {
+      background-color: #4a4a4a;
+      box-shadow: 0 0 10px rgba(255,255,255,0.3);
+    }
+
+    /*
+      4. NAV + Input Underline (CSS Wand)
+    */
+    nav {
+      position: absolute;
+      top: 70px;
+      left: 10px;
+      border-radius: 10px;
+      width: 220px;
+      z-index: 9999;
+      display: none;
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    nav.active {
+      display: block;
+      animation: fadeDown 0.5s forwards ease;
+    }
+    @keyframes fadeDown {
+      0% { opacity: 0; transform: translateY(-10px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    nav .dropdown {
+      background: linear-gradient(135deg, #3a3a3a 30%, #4a4a4a);
+      color: #fff;
+      padding: 1em;
+      text-align: center;
+      /* Aumentar un poco el glow */
+      box-shadow: 0 6px 12px rgba(255, 255, 255, 0.15);
+      border-radius: 10px;
+    }
+    nav .dropbtn {
+      background: none;
+      color: white;
+      padding: 16px;
+      font-size: 16px;
+      border: none;
+      cursor: pointer;
+      border-radius: 10px;
+      width: 100%;
+      outline: none;
+    }
+    nav .dropbtn:hover {
+      background-color: rgba(255,255,255,0.1);
+      box-shadow: 0 0 4px rgba(255,255,255,0.2);
+    }
+    nav .dropdown-content {
+      display: none;
+      position: relative;
+      background-color: #3a3a3a;
+      width: 100%;
+      border-radius: 10px;
+      margin-top: 0.5em;
+    }
+    nav .dropdown:hover .dropdown-content {
+      display: block;
+    }
+    nav .dropdown-content a {
+      color: #fff;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      border-radius: 10px;
+      transition: background-color 0.3s, transform 0.3s;
+      cursor: pointer;
+      text-align: left;
+    }
+    nav .dropdown-content a:hover {
+      background-color: rgba(255,255,255,0.2);
+      transform: translateX(5px);
+    }
+
+    /* Input underline */
+    .underline-input {
+      position: relative;
+      margin-top: 1em;
+      width: 90%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .underline-input input {
+      background: none;
+      border: none;
+      border-bottom: 2px solid #999;
+      width: 100%;
+      font-size: 1rem;
+      color: #fff;
+      padding: 0.5em 0;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+    .underline-input input:focus {
+      border-color: #ffd700;
+    }
+    .underline-input label {
+      position: absolute;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      transition: 0.3s ease all;
+      color: #999;
+      font-size: 0.9rem;
+    }
+    .underline-input input:focus ~ label,
+    .underline-input input:not(:placeholder-shown) ~ label {
+      top: -1.2em;
+      font-size: 0.7rem;
+      color: #ffd700;
+    }
+
+    /*
+      5. MAIN
+    */
+    main {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2em;
+    }
+
+    /*
+      6. SECCIONES .content + vov anims
+    */
+    .content {
+      background-color: rgba(31, 31, 31, 0.9);
+      padding: 2em;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.07);
+      margin-bottom: 2em;
+      display: none;
+    }
+    .content.active {
+      display: block;
+    }
+    .content h2 {
+      font-size: 1.8rem;
+      text-align: center;
+      margin-bottom: 1em;
+      color: #e0e0e0;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .content p {
+      color: #ccc;
+      line-height: 1.8em;
+      margin-bottom: 1em;
+    }
+
+    /*
+      7. BOTONES
+    */
+    .accessible-button {
+      background-color: #3a3a3a;
+      color: #fff;
+      border: none;
+      padding: 1em 2em;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 1em;
+      transition: background-color 0.3s, box-shadow 0.3s;
+      margin-top: 2em;
+      outline: none;
+    }
+    .accessible-button:hover {
+      background-color: #4a4a4a;
+      box-shadow: 0 0 10px rgba(255,255,255,0.2);
+    }
+    .accessible-button:focus {
+      outline: 2px solid #fff;
+    }
+
+    /*
+      8. FORMULARIO
+    */
+    .form-group {
+      margin-bottom: 1em;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5em;
+      color: #fff;
+    }
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 0.5em;
+      border: 1px solid #555;
+      border-radius: 5px;
+      background-color: #2c2c2c;
+      color: #e0e0e0;
+      font-size: 1em;
+    }
+    .form-group textarea {
+      resize: vertical;
+    }
+
+    /*
+      9. EFECTO DE RATÓN
+    */
+    .mouse-effect {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 3;
+    }
+    .mouse-effect div {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background-color: rgba(255, 255, 255, 0.15);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s ease-in-out;
+    }
+
+    /*
+      10. SUBMENÚ
+    */
+    .submenu {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 1em;
+    }
+    .submenu a {
+      display: inline-block;
+      width: 120px;
+      height: 120px;
+      line-height: 120px;
+      border-radius: 50%;
+      background-color: #3a3a3a;
+      color: #fff;
+      margin: 0.5em;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.3s;
+      text-align: center;
+    }
+    .submenu a:hover {
+      background-color: #4a4a4a;
+      transform: scale(1.1);
+    }
+
+    /*
+      11. PROYECTOS (CARDS)
+    */
+    .project-card {
+      background-color: #2c2c2c;
+      border-radius: 10px;
+      padding: 1em;
+      margin: 1em 0;
+      box-shadow: 0 4px 8px rgba(255,255,255,0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .project-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 12px rgba(255,255,255,0.2);
+    }
+    .project-card h3 {
+      margin: 0.5em 0;
+      font-size: 1.4rem;
+      color: #fff;
+      text-align: center;
+    }
+    .project-card p {
+      font-size: 0.95rem;
+      color: #ccc;
+      text-align: center;
+      margin-bottom: 1em;
+      max-width: 600px;
+    }
+    .project-card img {
+      max-width: 80%;
+      border-radius: 10px;
+      margin-bottom: 1em;
+    }
+
+    /*
+      12. BURBUJAS FLOTANTES
+    */
+    .bubble-container {
+      position: relative;
+      z-index: 0;
+    }
+    .bubble {
+      position: absolute;
+      border-radius: 50%;
+      background-size: cover;
+      background-position: center;
+      animation: float 10s infinite;
+      opacity: 0.7;
+    }
+    @keyframes float {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+      100% { transform: translateY(0); }
+    }
+
+    /*
+      13. EFECTO HOVER ZOOM IMGS
+    */
+    .img-hover-zoom {
+      position: relative;
+      overflow: hidden;
+      border-radius: 10px;
+      max-width: 300px;
+      margin: 0 auto;
+    }
+    .img-hover-zoom img {
+      transition: transform 0.5s ease;
+      display: block;
+      width: 100%;
+    }
+    .img-hover-zoom:hover img {
+      transform: scale(1.1);
+    }
+
+    /*
+      14. SECCIONES CV
+    */
+    .cv-section {
+      margin-top: 2em;
+    }
+    .cv-subtitle {
+      color: #ffd700;
+      font-size: 1.2rem;
+      margin-bottom: 0.5em;
+      text-transform: uppercase;
+      text-align: left;
+    }
+    .cv-list {
+      margin-left: 1.5em;
+      margin-top: 0.5em;
+    }
+    .cv-list li {
+      margin-bottom: 0.5em;
+      line-height: 1.4em;
+      color: #ccc;
+    }
+    .cv-job {
+      margin-bottom: 1.5em;
+    }
+    .cv-job-title {
+      font-weight: bold;
+      color: #fff;
+    }
+    .cv-job-institution {
+      font-style: italic;
+      color: #bbb;
+      margin-bottom: 0.3em;
+      display: block;
+    }
+    .cv-date-range {
+      font-size: 0.9rem;
+      color: #999;
+      margin-bottom: 0.5em;
+      display: block;
+    }
+
+    /*
+      15. TESTIMONIOS
+    */
+    .testimonials-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2em;
+      margin-top: 2em;
+    }
+    .testimonial-card {
+      background-color: #232323;
+      padding: 1.5em;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(255,255,255,0.1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .testimonial-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 12px rgba(255,255,255,0.2);
+    }
+    .testimonial-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      margin-bottom: 1em;
+      overflow: hidden;
+    }
+    .testimonial-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .testimonial-name {
+      font-weight: bold;
+      color: #fff;
+      margin-bottom: 0.5em;
+    }
+    .testimonial-message {
+      font-size: 0.9rem;
+      color: #ccc;
+      line-height: 1.5;
+    }
+
+    /*
+      16. ENTRETENIMIENTO: BREAKOUT
+    */
+    .game-container {
+      text-align: center;
+      margin-top: 1em;
+      position: relative;
+    }
+    canvas#breakoutCanvas {
+      background: linear-gradient(
+        to bottom right,
+        rgba(20,20,20,0.8),
+        rgba(60,60,60,0.6)
+      );
+      border: 2px solid #fff;
+      border-radius: 8px;
+      margin-top: 1em;
+      box-shadow: 0 0 20px rgba(255,255,255,0.3);
+    }
+    #breakoutInfo {
+      margin-top: 1em;
+      font-size: 1rem;
+      color: #ffd700;
+      text-align: center;
+    }
+    #breakoutScores {
+      margin-top: 0.5em;
+      color: #fff;
+      font-weight: bold;
+    }
+    #breakoutScores span {
+      margin-right: 20px;
+    }
+    #breakoutRecord {
+      color: #ff4444;
+      font-weight: bold;
+    }
+    .pause-button {
+      margin-top: 1em;
+      background-color: #8B4513;
+      color: #fff;
+      font-weight: bold;
+    }
+
+    /*
+      17. FOOTER (Más neon)
+    */
+    footer {
+      background-color: rgba(31, 31, 31, 0.9);
+      color: #fff;
+      text-align: center;
+      padding: 1.5em 0;
+      box-shadow: 0 -4px 8px rgba(255, 255, 255, 0.2);
+      border-radius: 10px 10px 0 0;
+      position: relative;
+      z-index: 10;
+      animation: neonFooter 2s ease-in-out infinite alternate;
+    }
+    @keyframes neonFooter {
+      0% { box-shadow: 0 -4px 8px rgba(255,255,255,0.1); }
+      100% { box-shadow: 0 -4px 16px rgba(255,255,255,0.4); }
+    }
+    footer p {
+      margin: 0.5em 0;
+      font-size: 0.9rem;
+    }
+
+    /*
+      18. RESPONSIVE
+    */
+    @media (max-width: 768px) {
+      header {
+        padding: 1.2em 0 0.8em 0;
+      }
+      .menu-button {
+        font-size: 0.9rem;
+      }
+      .project-card img {
+        max-width: 100%;
+      }
+      .cv-list {
+        margin-left: 1em;
+      }
+      canvas#breakoutCanvas {
+        width: 90% !important;
+      }
+    }
+    @media (max-width: 480px) {
+      nav {
+        width: 180px;
+        left: 5px;
+      }
+      .submenu a {
+        width: 80px;
+        height: 80px;
+        line-height: 80px;
+      }
+      .img-hover-zoom {
+        max-width: 200px;
+      }
+      canvas#breakoutCanvas {
+        width: 95% !important;
+      }
+    }
+  </style>
+
+  <script>
+    /**************************************************************************
+      JAVASCRIPT (MENÚ, SECCIONES, BREAKOUT, RATÓN, ETC.)
+    **************************************************************************/
+    /* 1. showSection */
+    function showSection(sectionId) {
+      // Si venimos de "entertainment" y salimos, paramos el juego
+      if (document.getElementById('entertainment').classList.contains('active') && sectionId !== 'entertainment') {
+        breakoutStop();
+      }
+
+      // Retiramos 'active' y animaciones vov en todas
+      document.querySelectorAll('.content').forEach(section => {
+        section.classList.remove(
+          'active', 'vov', 'fade-in', 'fade-in-left', 'fade-in-right', 
+          'fade-in-up', 'flip-in-x', 'zoom-in'
+        );
+      });
+
+      // Añadimos 'active' + anim vov
+      const section = document.getElementById(sectionId);
+      section.classList.add('active', 'vov');
+
+      // Animación distinta por sección
+      switch (sectionId) {
+        case 'about':
+          section.classList.add('fade-in');
+          break;
+        case 'projects':
+          section.classList.add('fade-in-left');
+          break;
+        case 'skills':
+          section.classList.add('fade-in-right');
+          break;
+        case 'experience':
+          section.classList.add('flip-in-x');
+          break;
+        case 'testimonials':
+          section.classList.add('zoom-in');
+          break;
+        case 'entertainment':
+          section.classList.add('fade-in-up');
+          break;
+        case 'contact':
+          section.classList.add('fade-in');
+          break;
+        default:
+          section.classList.add('fade-in');
+          break;
+      }
+
+      // Scroll top
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    /* 2. toggleMenu */
+    function toggleMenu() {
+      document.querySelector('nav').classList.toggle('active');
+    }
+
+    /* 3. createBubbles */
+    function createBubbles() {
+      const images = [
+        'https://via.placeholder.com/150/0000FF/808080?text=Img1',
+        'https://via.placeholder.com/150/FF0000/FFFFFF?text=Img2',
+        'https://via.placeholder.com/150/FFFF00/000000?text=Img3',
+        'https://via.placeholder.com/150/00FF00/0000FF?text=Img4'
+      ];
+      const bubbleContainer = document.createElement('div');
+      bubbleContainer.classList.add('bubble-container');
+      document.body.appendChild(bubbleContainer);
+
+      images.forEach((image, index) => {
+        const bubble = document.createElement('div');
+        bubble.classList.add('bubble');
+        bubble.style.backgroundImage = `url(${image})`;
+        bubble.style.width = `${50 + index * 10}px`;
+        bubble.style.height = `${50 + index * 10}px`;
+        bubble.style.left = `${Math.random() * 80}%`;
+        bubble.style.top = `${Math.random() * 80 + 10}%`;
+        bubbleContainer.appendChild(bubble);
+      });
+    }
+
+    /* 4. createMouseEffect */
+    function createMouseEffect() {
+      const mouseEffect = document.createElement('div');
+      mouseEffect.classList.add('mouse-effect');
+      document.body.appendChild(mouseEffect);
+
+      for (let i = 0; i < 4; i++) {
+        const dot = document.createElement('div');
+        mouseEffect.appendChild(dot);
+      }
+      document.addEventListener('mousemove', (e) => {
+        const dots = document.querySelectorAll('.mouse-effect div');
+        dots.forEach((dot, index) => {
+          setTimeout(() => {
+            dot.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+          }, index * 50);
+        });
+      });
+    }
+
+    /* 5. GitHub Profile */
+    function fetchGitHubProfile() {
+      fetch('https://api.github.com/users/Guayamose')
+        .then(response => response.json())
+        .then(data => {
+          const profileSection = document.getElementById('github-profile');
+          if (!data || data.message === "Not Found") {
+            profileSection.innerHTML = `<p>No se encontró el perfil de GitHub.</p>`;
+            return;
+          }
+          profileSection.innerHTML = `
+            <h3 style="text-align:center;">${data.name || 'Perfil de GitHub'}</h3>
+            <p style="text-align:center;">${data.bio || 'Desarrollador apasionado por la tecnología'}</p>
+            <div class="img-hover-zoom" style="width: 100px; border-radius: 50%; margin: 1em auto;">
+              <img src="${data.avatar_url}" alt="Avatar de GitHub" style="border-radius: 50%;">
+            </div>
+          `;
+        })
+        .catch(error => {
+          console.error('Error fetching GitHub profile:', error);
+          document.getElementById('github-profile').innerHTML = `<p>Error al cargar el perfil de GitHub.</p>`;
+        });
+    }
+
+    /* 6. GitHub Repos */
+    function fetchGitHubRepos() {
+      const customDescriptions = {
+        "PersonalWebsite": "Página web personal con HTML, CSS y JavaScript.",
+        "PythonScripts": "Colección de scripts en Python para varias tareas.",
+        "Portfolio-DataScience": "Proyectos de ciencia de datos con notebooks.",
+        "MachineLearning101": "Ejemplos básicos de ML en Python.",
+        "WebScraper": "Script para extraer información de sitios web."
+      };
+
+      fetch('https://api.github.com/users/Guayamose/repos')
+        .then(response => response.json())
+        .then(data => {
+          if (!Array.isArray(data)) {
+            document.getElementById('github-repos').innerHTML = `<p>No se encontraron repositorios.</p>`;
+            return;
+          }
+          const reposSection = document.getElementById('github-repos');
+          reposSection.innerHTML = '';
+
+          data.forEach(repo => {
+            const repoCard = document.createElement('div');
+            repoCard.classList.add('project-card');
+            let description = repo.description || customDescriptions[repo.name] 
+              || 'Proyecto sin descripción.';
+            
+            fetchRandomImageFromUnsplash()
+              .then(imageUrl => {
+                repoCard.innerHTML = `
+                  <div class="img-hover-zoom">
+                    <img src="${imageUrl}" alt="Imagen del proyecto ${repo.name}">
+                  </div>
+                  <h3>${repo.name}</h3>
+                  <p>${description}</p>
+                  <a href="${repo.html_url}" target="_blank" class="accessible-button">Ver en GitHub</a>
+                `;
+                reposSection.appendChild(repoCard);
+              })
+              .catch(error => {
+                console.error('Error fetching random image:', error);
+                repoCard.innerHTML = `
+                  <div class="img-hover-zoom">
+                    <img src="https://via.placeholder.com/150" alt="Imagen del proyecto ${repo.name}">
+                  </div>
+                  <h3>${repo.name}</h3>
+                  <p>${description}</p>
+                  <a href="${repo.html_url}" target="_blank" class="accessible-button">Ver en GitHub</a>
+                `;
+                reposSection.appendChild(repoCard);
+              });
+          });
+        })
+        .catch(error => {
+          console.error('Error fetching GitHub repos:', error);
+          document.getElementById('github-repos').innerHTML = `<p>Error al cargar los repos de GitHub.</p>`;
+        });
+    }
+    function fetchRandomImageFromUnsplash() {
+      const url = 'https://api.unsplash.com/photos/random?client_id=CuFrJiTpcc1lT0E1kCLgVDpxHQBmZvW4AfCsla85Qlw&query=technology&orientation=squarish';
+      return fetch(url)
+        .then(resp => resp.json())
+        .then(json => {
+          if (!json || !json.urls) {
+            throw new Error('No se encontró la imagen en Unsplash');
+          }
+          return json.urls.regular;
+        });
+    }
+
+    /* 7. Testimonios */
+    function fetchTestimonials() {
+      const url = 'https://jsonplaceholder.typicode.com/comments?postId=1';
+      fetch(url)
+        .then(resp => resp.json())
+        .then(comments => {
+          const container = document.getElementById('testimonials-container');
+          container.innerHTML = '';
+          comments.slice(0, 4).forEach(comment => {
+            const card = document.createElement('div');
+            card.classList.add('testimonial-card');
+            const randomAvatar = `https://i.pravatar.cc/80?u=${comment.email}`;
+            card.innerHTML = `
+              <div class="testimonial-avatar">
+                <img src="${randomAvatar}" alt="Avatar de ${comment.name}">
+              </div>
+              <div class="testimonial-name">${comment.name}</div>
+              <div class="testimonial-message">
+                “${comment.body}”
+              </div>
+            `;
+            container.appendChild(card);
+          });
+        })
+        .catch(error => {
+          console.error('Error fetching testimonials:', error);
+        });
+    }
+
+    /* 8. BREAKOUT */
+    let canvas, ctx;
+    let ballRadius = 10;
+    let x, y;
+    let dx = 3;
+    let dy = -3;
+    let paddleHeight = 12;
+    let paddleWidth = 80;
+    let paddleX;
+    let rightPressed = false;
+    let leftPressed = false;
+    let mouseMove = false;
+
+    let brickRowCount = 5; 
+    let brickColumnCount = 7;
+    let brickWidth = 70;
+    let brickHeight = 20;
+    let brickPadding = 10;
+    let brickOffsetTop = 40;
+    let brickOffsetLeft = 35;
+
+    let bricks = [];
+    let lives = 3;
+    let score = 0;
+    let level = 1;
+    let maxLevels = 5;
+    let sessionRecord = 0;
+    let breakoutStarted = false;
+    let paused = false;
+    let gameRunning = false;
+
+    function initBricks() {
+      bricks = [];
+      for (let c = 0; c < brickColumnCount; c++) {
+        bricks[c] = [];
+        for (let r = 0; r < brickRowCount; r++) {
+          bricks[c][r] = { x: 0, y: 0, status: 1 };
+        }
+      }
+    }
+
+    function setupBreakout() {
+      canvas = document.getElementById('breakoutCanvas');
+      ctx = canvas.getContext('2d');
+      canvas.width = 600;
+      canvas.height = 400;
+
+      paddleWidth = 80;
+      paddleX = (canvas.width - paddleWidth) / 2;
+      x = canvas.width / 2;
+      y = canvas.height - 30;
+
+      if(sessionStorage.getItem('breakoutRecord')) {
+        sessionRecord = parseInt(sessionStorage.getItem('breakoutRecord'), 10);
+      }
+
+      initBricks();
+
+      document.addEventListener('mousemove', mouseMoveHandler, false);
+      document.addEventListener('keydown', keyDownHandler, false);
+      document.addEventListener('keyup', keyUpHandler, false);
+
+      paused = false;
+      gameRunning = true;
+      updateScores();
+      draw();
+    }
+
+    function updateScores() {
+      document.getElementById('breakoutScores').innerHTML = `
+        <span>Puntos: ${score}</span>
+        <span>Vidas: ${lives}</span>
+        <span>Nivel: ${level}</span>
+        <span id="breakoutRecord">Récord: ${sessionRecord}</span>
+      `;
+    }
+
+    function keyDownHandler(e) {
+      if(e.key === "Right" || e.key === "ArrowRight") {
+        rightPressed = true;
+      } else if(e.key === "Left" || e.key === "ArrowLeft") {
+        leftPressed = true;
+      }
+    }
+    function keyUpHandler(e) {
+      if(e.key === "Right" || e.key === "ArrowRight") {
+        rightPressed = false;
+      } else if(e.key === "Left" || e.key === "ArrowLeft") {
+        leftPressed = false;
+      }
+    }
+
+    function mouseMoveHandler(e) {
+      mouseMove = true;
+      const rect = canvas.getBoundingClientRect();
+      let relativeX = e.clientX - rect.left;
+      paddleX = relativeX - paddleWidth / 2;
+      if(paddleX < 0) {
+        paddleX = 0;
+      } else if(paddleX + paddleWidth > canvas.width) {
+        paddleX = canvas.width - paddleWidth;
+      }
+    }
+
+    function collisionDetection() {
+      for(let c=0; c<brickColumnCount; c++) {
+        for(let r=0; r<brickRowCount; r++) {
+          let b = bricks[c][r];
+          if(b.status === 1) {
+            if(x > b.x && x < b.x+brickWidth && y > b.y && y < b.y+brickHeight) {
+              dy = -dy;
+              b.status = 0;
+              score++;
+              if(score > sessionRecord) {
+                sessionRecord = score;
+                sessionStorage.setItem('breakoutRecord', sessionRecord);
+              }
+              updateScores();
+
+              if(score === brickRowCount * brickColumnCount * (level*(level+1))/2 ) {
+                if(level >= maxLevels) {
+                  alert("¡Felicidades! Has completado todos los niveles");
+                  document.location.reload();
+                } else {
+                  level++;
+                  brickRowCount++;
+                  dx += 1; 
+                  dy -= 1;
+                  initBricks();
+                  x = canvas.width / 2;
+                  y = canvas.height - 30;
+                  paddleX = (canvas.width - paddleWidth)/2;
+                  alert("¡Nivel superado! Pasas a nivel: " + level);
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    function drawBricks() {
+      for(let c=0; c<brickColumnCount; c++) {
+        for(let r=0; r<brickRowCount; r++) {
+          if(bricks[c][r].status === 1) {
+            let brickX = (c*(brickWidth+brickPadding)) + brickOffsetLeft;
+            let brickY = (r*(brickHeight+brickPadding)) + brickOffsetTop;
+            bricks[c][r].x = brickX;
+            bricks[c][r].y = brickY;
+            ctx.beginPath();
+            ctx.rect(brickX, brickY, brickWidth, brickHeight);
+            let brickColor = ctx.createLinearGradient(brickX, brickY, brickX+brickWidth, brickY+brickHeight);
+            brickColor.addColorStop(0, `rgb(${50+10*r}, ${80+15*c}, ${100+10*r})`);
+            brickColor.addColorStop(1, `rgb(${100+15*r}, ${140+20*c}, ${160+10*r})`);
+            ctx.fillStyle = brickColor;
+            ctx.fill();
+            ctx.closePath();
+          }
+        }
+      }
+    }
+
+    function drawBall() {
+      ctx.beginPath();
+      ctx.arc(x, y, ballRadius, 0, Math.PI*2);
+      ctx.fillStyle = "#fff";
+      ctx.fill();
+      ctx.closePath();
+    }
+
+    function drawPaddle() {
+      ctx.beginPath();
+      ctx.rect(paddleX, canvas.height-paddleHeight-5, paddleWidth, paddleHeight);
+      ctx.fillStyle = "#00FFFF";
+      ctx.fill();
+      ctx.closePath();
+    }
+
+    function draw() {
+      if (!gameRunning) return;
+      requestAnimationFrame(draw);
+      if (paused) return;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawBricks();
+      drawBall();
+      drawPaddle();
+      collisionDetection();
+
+      x += dx;
+      y += dy;
+
+      if(x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
+        dx = -dx;
+      }
+      if(y + dy < ballRadius) {
+        dy = -dy;
+      } 
+      else if(y + dy > canvas.height - ballRadius - paddleHeight - 5) {
+        if(x > paddleX && x < paddleX + paddleWidth) {
+          let collidePoint = x - (paddleX + paddleWidth/2);
+          collidePoint = collidePoint / (paddleWidth/2);
+          let angle = collidePoint * Math.PI/3; 
+          dx = 5 * Math.sin(angle);
+          dy = -5 * Math.cos(angle);
+        } else {
+          lives--;
+          updateScores();
+          if(lives <= 0) {
+            alert("GAME OVER");
+            document.location.reload();
+          } else {
+            x = canvas.width/2;
+            y = canvas.height-30;
+            dx = 3;
+            dy = -3;
+            paddleX = (canvas.width - paddleWidth)/2;
+          }
+        }
+      }
+
+      if(rightPressed && !mouseMove) {
+        paddleX += 7;
+        if(paddleX + paddleWidth > canvas.width){
+          paddleX = canvas.width - paddleWidth;
+        }
+      }
+      else if(leftPressed && !mouseMove) {
+        paddleX -= 7;
+        if(paddleX < 0){
+          paddleX = 0;
+        }
+      }
+    }
+
+    function startBreakout() {
+      if(!breakoutStarted) {
+        breakoutStarted = true;
+        setupBreakout();
+      }
+    }
+    function breakoutStop() {
+      breakoutStarted = false;
+      gameRunning = false;
+      paused = false;
+      score = 0;
+      level = 1;
+      lives = 3;
+      brickRowCount = 5;
+      dx = 3; 
+      dy = -3;
+      document.removeEventListener('mousemove', mouseMoveHandler);
+      document.removeEventListener('keydown', keyDownHandler);
+      document.removeEventListener('keyup', keyUpHandler);
+      const c = document.getElementById('breakoutCanvas');
+      if (c) {
+        const ctx2 = c.getContext('2d');
+        ctx2.clearRect(0, 0, c.width, c.height);
+      }
+    }
+    function togglePause() {
+      paused = !paused;
+      const btn = document.getElementById('pauseResumeBtn');
+      btn.textContent = paused ? 'Continuar' : 'Pausa';
+    }
+
+    // DOMContentLoaded
+    document.addEventListener('DOMContentLoaded', () => {
+      showSection('about');
+      createBubbles();
+      createMouseEffect();
+      fetchGitHubProfile();
+      fetchGitHubRepos();
+      fetchTestimonials();
+    });
+  </script>
+</head>
+
+<body>
+  <!-- HEADER -->
+  <header>
+    <button class="menu-button" onclick="toggleMenu()">☰</button>
+    <h1>Rafael Pradillo López-Ortum</h1>
+    <p>Ingeniero Informático - Portafolio Web</p>
+  </header>
+
+  <!-- MENÚ DE NAVEGACIÓN + Input Underline -->
+  <nav>
+    <div class="dropdown">
+      <button class="dropbtn">Menú</button>
+      <div class="dropdown-content">
+        <a onclick="showSection('about')">Sobre Mí</a>
+        <a onclick="showSection('projects')">Proyectos</a>
+        <a onclick="showSection('skills')">Habilidades</a>
+        <a onclick="showSection('experience')">Experiencia</a>
+        <a onclick="showSection('testimonials')">Testimonios</a>
+        <a onclick="showSection('entertainment'); startBreakout();">Entretenimiento</a>
+        <a onclick="showSection('contact')">Contacto</a>
+      </div>
+      <!-- Input Underline (CSS Wand) -->
+      <div class="underline-input">
+        <input type="text" id="searchInput" required placeholder=" " />
+        <label for="searchInput">Buscar...</label>
+      </div>
+    </div>
+  </nav>
+
+  <!-- CUERPO PRINCIPAL -->
+  <main>
+    <!-- Sección: Sobre Mí (fade-in) -->
+    <section id="about" class="content">
+      <h2>Sobre Mí</h2>
+      <p>
+        ¡Hola! Soy <strong>Rafael Pradillo López-Ortum</strong>, estudiante 
+        de <em>Ingeniería de los sistemas de la información</em> (Ingeniería Informática 
+        con bases de Economía) en la <em>Universidad CEU San Pablo</em>.
+      </p>
+      <p>
+        Disfruto trabajando en proyectos de desarrollo de software, sistemas de información 
+        y soluciones creativas. También me apasiona el <em>mundo de la tecnología</em>, 
+        la colaboración y el aprendizaje continuo.
+      </p>
+      <div class="submenu">
+        <a href="https://github.com/Guayamose" target="_blank" aria-label="GitHub">GitHub</a>
+        <a href="https://www.linkedin.com/in/rafael-pradillo-l%C3%B3pez-ortum-434089213/" 
+           target="_blank" aria-label="LinkedIn">LinkedIn</a>
+      </div>
+    </section>
+
+    <!-- Sección: Proyectos (fade-in-left) -->
+    <section id="projects" class="content">
+      <h2>Proyectos</h2>
+      <div id="github-profile"></div>
+      <div id="github-repos"></div>
+      <div style="text-align:center;">
+        <button class="accessible-button" onclick="showSection('about')">Volver</button>
+      </div>
+    </section>
+
+    <!-- Sección: Habilidades (fade-in-right) -->
+    <section id="skills" class="content">
+      <h2>Habilidades</h2>
+      <p>
+        Cuento con experiencia en desarrollo web, bases de datos, programación 
+        en Python y Java, y mucho más. Estas son algunas de mis competencias:
+      </p>
+      <div class="cv-section">
+        <h3 class="cv-subtitle">Profesor Particular</h3>
+        <ul class="cv-list">
+          <li>Preparación de estudiantes para exámenes y pruebas de evaluación estandarizadas.</li>
+          <li>Resolución de problemas matemáticos y físicos a distintos niveles.</li>
+        </ul>
+      </div>
+      <div class="cv-section">
+        <h3 class="cv-subtitle">Habilidades Técnicas</h3>
+        <ul class="cv-list">
+          <li>Desarrollo Web (HTML, CSS, JavaScript).</li>
+          <li>Bases de Datos (SQL, NoSQL, optimización y modelado).</li>
+          <li>Programación en Python, Java y otros lenguajes.</li>
+          <li>Servidores de videojuegos, configuraciones en la nube.</li>
+          <li>Modificaciones de consolas y reparaciones básicas de hardware.</li>
+        </ul>
+      </div>
+      <p>
+        También manejo <em>Git y GitHub</em> para control de versiones, 
+        <em>Scrum y Kanban</em> para trabajo en equipo, y poseo un 
+        <em>nivel C1 de inglés</em>.
+      </p>
+      <div style="text-align:center;">
+        <button class="accessible-button" onclick="showSection('about')">Volver</button>
+      </div>
+    </section>
+
+    <!-- Sección: Experiencia (flip-in-x) -->
+    <section id="experience" class="content">
+      <h2>Experiencia & Formación</h2>
+      <div class="cv-section">
+        <h3 class="cv-subtitle">Formación</h3>
+        <div class="cv-job">
+          <span class="cv-job-title">Universidad CEU San Pablo</span>
+          <span class="cv-job-institution">Madrid</span>
+          <span class="cv-date-range">Septiembre 2022 - En curso</span>
+          <ul class="cv-list">
+            <li>Ingeniería de los sistemas de la información: Ingeniería Informática + Bases de economía</li>
+          </ul>
+        </div>
+        <div class="cv-job">
+          <span class="cv-job-title">Colegio CEU San Pablo</span>
+          <span class="cv-job-institution">Madrid</span>
+          <span class="cv-date-range">Septiembre 2020 - Septiembre 2022</span>
+          <ul class="cv-list">
+            <li>Bachillerato mixto (Económicas y Ciencias): Física, Matemáticas, Química y Economía</li>
+          </ul>
+        </div>
+      </div>
+      <div class="cv-section">
+        <h3 class="cv-subtitle">Historial Laboral</h3>
+        <div class="cv-job">
+          <span class="cv-job-title">Prácticas - Ibérica Trading Technology</span>
+          <span class="cv-job-institution">Madrid</span>
+          <span class="cv-date-range">Octubre 2022 - Diciembre 2022</span>
+          <ul class="cv-list">
+            <li>Organización y clasificación de documentos físicos y digitales.</li>
+            <li>Atención al cliente, gestión de redes sociales y pequeñas reparaciones de electrónica.</li>
+          </ul>
+        </div>
+        <div class="cv-job">
+          <span class="cv-job-title">Deportista de alto rendimiento</span>
+          <span class="cv-job-institution">Granada, Andalucía</span>
+          <ul class="cv-list">
+            <li>Esquí alpino y freestyle, campeón de España 2022 Freestyle-SkiCross.</li>
+            <li>Nivel avanzado en tenis y numerosas competiciones de invierno.</li>
+          </ul>
+        </div>
+      </div>
+      <p>
+        Mi CV completo con más detalles se encuentra disponible 
+        si deseas conocerlo en profundidad:
+        <a href="https://www.linkedin.com/in/rafael-pradillo-l%C3%B3pez-ortum-434089213/" 
+           target="_blank" style="color: #ffd700;">
+           Ver más en LinkedIn
+        </a>.
+      </p>
+      <div style="text-align:center; margin-top:1em;">
+        <button class="accessible-button" onclick="showSection('about')">Volver</button>
+      </div>
+    </section>
+
+    <!-- Sección: Testimonios (zoom-in) -->
+    <section id="testimonials" class="content">
+      <h2>Testimonios</h2>
+      <p>
+        Estos testimonios son ficticios (JSONPlaceholder), como ejemplo de integración de una API.
+      </p>
+      <div id="testimonials-container" class="testimonials-container"></div>
+      <div style="text-align:center; margin-top:2em;">
+        <button class="accessible-button" onclick="showSection('about')">Volver</button>
+      </div>
+    </section>
+
+    <!-- Sección: Entretenimiento (fade-in-up) -->
+    <section id="entertainment" class="content">
+      <h2>Entretenimiento</h2>
+      <p>
+        Disfruta de un Breakout con <strong>5 niveles</strong>, 
+        récord de sesión y botón de Pausa/Continuar. Al salir de esta sección, 
+        se detiene el juego.
+      </p>
+      <div class="game-container">
+        <canvas id="breakoutCanvas"></canvas>
+        <div id="breakoutInfo">
+          <div id="breakoutScores"></div>
+          <button id="pauseResumeBtn" class="accessible-button pause-button" onclick="togglePause()">Pausa</button>
+        </div>
+      </div>
+      <div style="text-align:center; margin-top:2em;">
+        <button class="accessible-button" onclick="showSection('about')">Volver</button>
+      </div>
+    </section>
+
+    <!-- Sección: Contacto (fade-in) -->
+    <section id="contact" class="content">
+      <h2>Contacto</h2>
+      <p>
+        ¿Tienes preguntas o propuestas? ¡Envíame un mensaje y estaré encantado de hablar!
+      </p>
+      <form>
+        <div class="form-group">
+          <label for="name">Nombre:</label>
+          <input type="text" id="name" name="name" required />
+        </div>
+        <div class="form-group">
+          <label for="email">Correo Electrónico:</label>
+          <input type="email" id="email" name="email" required />
+        </div>
+        <div class="form-group">
+          <label for="message">Mensaje:</label>
+          <textarea id="message" name="message" rows="4" required></textarea>
+        </div>
+        <button type="submit" class="accessible-button">Enviar</button>
+      </form>
+      <div style="text-align:center; margin-top:2em;">
+        <button class="accessible-button" onclick="showSection('about')">Volver</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>&copy; 2023 - <strong>Rafael Pradillo López-Ortum</strong>. Todos los derechos reservados.</p>
+    <p>Con animaciones vov.css, un leve extra de neón y glow, y un Breakout de 5 niveles.</p>
+  </footer>
+</body>
+</html>
